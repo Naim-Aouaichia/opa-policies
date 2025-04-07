@@ -4,5 +4,5 @@ default deny = false
 
 deny = true if {
   some i
-  input[i].rule.security_severity_level == "critical"
+  input[i].rule.security_severity_level == "high"
 }
