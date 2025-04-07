@@ -2,8 +2,8 @@ package ghas
 
 default deny = []
 
-# Rules exemple : forbid criticals vulnerabilities not patched
-deny_ci_run {
-    some i
-    input[i].rule.security_severity_level == "critical"
+deny[reason] {
+  some i
+  input[i].rule.security_severity_level == "critical"
+  reason := sprintf("Critical vulnerability found: %s", [input[i].rule.id])
 }
