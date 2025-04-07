@@ -1,8 +1,8 @@
 package ghas
 
-default deny = false
+default pass := true
 
-deny = true if {
+pass = false if {
   some i
   input[i].rule.security_severity_level == "high"
 }
