@@ -1,5 +1,5 @@
 package ghas
 
 pass if {
-	count([i | input[i].rule.security_severity_level == "critical"]) == 0
+	count([i | input[i].rule.security_severity_level == "high"]) == 0
 }
