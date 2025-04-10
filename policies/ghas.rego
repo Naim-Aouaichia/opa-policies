@@ -5,6 +5,7 @@ cid_sum := to_number(input.product_context.product_confidentiality) +
            to_number(input.product_context.product_integrity) +
            to_number(input.product_context.product_availability)
 
+# Product qualification
 product_is_critical if {
     to_number(input.product_context.product_confidentiality) == 4
 }
@@ -66,12 +67,6 @@ vuln_count_secret := count([v | v := input.ghas_report[_]; v.rule.id == "secret-
 vuln_has_significant if {
     vuln_count_critical > 0
 }
-vuln_has_significant if {
-    vuln_count_high > 0
-}
-vuln_has_significant if {
-    vuln_count_medium > 0
-}
 
 vuln_has_critical_or_high if {
     vuln_count_critical > 0
@@ -99,39 +94,17 @@ block if {
 
 block if {
     product_is_sensible_and_exposed
-    vuln_has_critical_or_high
+    vuln_has_significant
 }
 
 block if {
     product_is_critical_not_exposed
-    vuln_has_critical_or_high
+    vuln_has_significant
 }
 
 block if {
     product_is_sensible_not_exposed
     vuln_has_critical
-}
-
-block if {
-    product_is_non_sensible_exposed
-    vuln_has_critical
-}
-
-block if {
-    product_is_non_sensible_non_exposed
-    vuln_has_critical
-    not override_allowed
-}
-
-override_allowed if {
-    product_is_non_sensible_non_exposed
-    vuln_count_high <= 2
-    vuln_count_critical == 0
-    remediation_plan_exists
-}
-
-remediation_plan_exists if {
-    true
 }
 
 allow := true if {
